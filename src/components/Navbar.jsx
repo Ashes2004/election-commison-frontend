@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
   return (
     <nav className="flex items-center  px-3  bg-white  gap-x-96  border-b-4 border-pink-400">
       {/* Logo */}
@@ -33,7 +34,7 @@ function Navbar() {
         >
           About
         </Link>
-        <button className="h-10 w-36 bg-blue-300 rounded-xl text-white hover:bg-[#B81D3F] transition duration-300 shadow-md">
+        <button onClick={()=>navigate('/login')} className="h-10 w-36 bg-blue-500 rounded-xl text-white hover:bg-[#B81D3F] transition duration-300 shadow-md">
           Sign In
         </button>
       </div>
