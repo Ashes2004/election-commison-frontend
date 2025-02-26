@@ -1,6 +1,16 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import './auth.css'
 const AuthPage = () => {
+  
+
+    const navigate = useNavigate();
+    const token = sessionStorage.getItem("token");
+    if (token != undefined) {
+      navigate("/");
+    }
+
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,17 +24,30 @@ const AuthPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/api/${formData.role}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/${formData.role}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
       const data = await response.json();
+      sessionStorage.setItem("token", data.token);
+      if (data.voter) {
+        sessionStorage.setItem("voterId", data.voter._id);
+      } else if (data.candidate) {
+        sessionStorage.setItem("candidateId", data.candidate._id);
+      } else if (data.admin) {
+        sessionStorage.setItem("adminId", data.admin._id);
+      }
+      alert("Login Sucessfully");
+      navigate('/')
       console.log(data);
     } catch (error) {
       console.error("Error logging in:", error);
@@ -32,9 +55,11 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="auth  flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">Sign In</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+          Sign In
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mt-2">
             <label className="block mb-1 font-medium">Email</label>

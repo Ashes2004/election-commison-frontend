@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem("token");
   return (
     <nav className="flex items-center  px-3  bg-white  gap-x-96  border-b-4 border-pink-400">
       {/* Logo */}
@@ -34,9 +35,21 @@ function Navbar() {
         >
           About
         </Link>
-        <button onClick={()=>navigate('/login')} className="h-10 w-36 bg-blue-500 rounded-xl text-white hover:bg-[#B81D3F] transition duration-300 shadow-md">
-          Sign In
-        </button>
+        {token != undefined ? (
+          <Link
+            to="/dashboard"
+            className="text-white bg-green-700 rounded-2xl p-3 hover:text-[#B81D3F] transition duration-300"
+          >
+            Dashboard
+          </Link>
+        ) : (
+          <button
+            onClick={() => navigate("/login")}
+            className="h-10 w-36 bg-blue-500 rounded-xl text-white hover:bg-[#B81D3F] transition duration-300 shadow-md"
+          >
+            Sign In
+          </button>
+        )}
       </div>
     </nav>
   );
