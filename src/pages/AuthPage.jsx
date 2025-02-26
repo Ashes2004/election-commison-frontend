@@ -25,7 +25,7 @@ const AuthPage = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:5000/api/${formData.role}/login`,
+        `https://gigantic-charil-dhawal-3f849cd8.koyeb.app/api/${formData.role}/login`,
         {
           method: "POST",
           headers: {

@@ -9,7 +9,7 @@ export default function NewsTabs() {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/news");
+                const response = await fetch("https://gigantic-charil-dhawal-3f849cd8.koyeb.app/api/news");
                 if (!response.ok) throw new Error("Failed to fetch news data");
                 const data = await response.json();
 
